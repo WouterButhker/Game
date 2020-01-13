@@ -9,6 +9,7 @@ let ficheArray;
 let timerID;
 let lastFiche;
 let finished = false;
+let millisecondsPerSecond = 100;
 
 ficheArray = [];
 for (let i = 0; i < 7; i++) {
@@ -27,11 +28,13 @@ for (let i = 0; i < 7; i++) {
     column.classList.add("column");
     column.id = i.toString();
     document.getElementById("columns").appendChild(column);
-    column.addEventListener("click", function(){dropFiche(i)});
+    column.addEventListener("click", function () {
+        dropFiche(i)
+    });
 }
 
 timer();
-timerID = setInterval(timer, 1000);
+timerID = setInterval(timer, millisecondsPerSecond);
 console.log("timer set!");
 
 
@@ -49,8 +52,9 @@ function timer() {
     //Decrement turn timer
     turnTimer--;
     if (turnTimer < 0) {
-        updateTurn();
-        turnTimer = 30;
+        let valid = dropFiche(Math.floor(Math.random() * 7));
+        while ((!valid) && numberOfFiches < 42)
+            valid = dropFiche(Math.floor(Math.random() * 7));
     }
 
     let optionalTurnZero = "";
@@ -71,13 +75,11 @@ function updateTurn() {
     if (scanHorizontal() || scanVertical())
         return;
     let turnID = document.getElementById("turnID").innerHTML;
-    // let valid = dropFiche(Math.floor(Math.random() * 7));
-    // while ((!valid) && numberOfFiches < 42)
-    //     valid = dropFiche(Math.floor(Math.random() * 7));
     if (turnID === "RED")
         document.getElementById("turnID").innerHTML = "YELLOW";
     if (turnID === "YELLOW")
         document.getElementById("turnID").innerHTML = "RED";
+    turnTimer = 30;
 }
 
 function dropFiche(y) {
@@ -108,7 +110,7 @@ function finish() {
     clearInterval(timerID);
 }
 
-function scanHorizontal(){
+function scanHorizontal() {
     for (let y = 0; y < 7; y++) {
         let lastColor = null;
         let consecutive = 1;
@@ -131,7 +133,7 @@ function scanHorizontal(){
     return false;
 }
 
-function scanVertical(){
+function scanVertical() {
     for (let x = 0; x < 6; x++) {
         let lastColor = null;
         let consecutive = 1;
@@ -164,7 +166,7 @@ function logColors() {
     }
 }
 
-function kill(){
+function kill() {
     clearInterval(timerID);
 }
 
