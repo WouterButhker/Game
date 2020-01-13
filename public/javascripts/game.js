@@ -6,6 +6,8 @@ let elapsedSeconds = 0;
 let elapsedMinutes = 0;
 let turnTimer = 31;
 
+let numberOfFiches = 0;
+
 for (let i = 41; i >= 0; i--) {
     let circle = document.createElement("div");
     circle.classList.add("circle");
@@ -13,12 +15,8 @@ for (let i = 41; i >= 0; i--) {
     square.appendChild(circle);
 }
 
-document.getElementById("43").classList.add("red");
-document.getElementById("53").classList.add("yellow");
-
-
 timer();
-setInterval(timer, 100);
+setInterval(timer, 10);
 
 function timer() {
     //Increment elapsed timer
@@ -49,7 +47,9 @@ function timer() {
 
 function updateTurn() {
     let turnID = document.getElementById("turnID").innerHTML;
-    dropFiche(1);
+    let valid = dropFiche(Math.floor(Math.random() * 7));
+    while ( (!valid) && numberOfFiches < 42)
+        valid = dropFiche(Math.floor(Math.random() * 7));
     if (turnID === "RED")
         document.getElementById("turnID").innerHTML = "YELLOW";
     if (turnID === "YELLOW")
@@ -58,7 +58,7 @@ function updateTurn() {
 
 function dropFiche(y) {
     if (y < 0 || y > 6)
-        return;
+        return false;
     for (let x = 0; x < 6; x++) {
         let classList = document.getElementById(x + "" + y).classList;
         let isRed = classList.contains("red");
@@ -67,7 +67,10 @@ function dropFiche(y) {
 
         if (!(isRed || isYellow)) {
             classList.add(turnID.toLowerCase());
+            numberOfFiches ++;
+            return true;
             break;
         }
     }
+    return false;
 }
