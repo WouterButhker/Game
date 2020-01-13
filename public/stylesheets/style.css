@@ -14,8 +14,8 @@ b {
 }
 
 .circle {
-  width: 50px;
-  height: 50px;
+  width: var(--boardsize);
+  height: var(--boardsize);
   border-radius: 50%;
   background-color: white;
   float: right;
@@ -30,9 +30,30 @@ b {
   background-color: yellow;
 }
 
+.column {
+  height: calc(6 * var(--boardsize) + 7 * 2 * var(--margin));
+  width: var(--boardsize);
+  opacity: 50%;
+  float: left;
+  padding: 2px;
+}
+
+#columns {
+  position: absolute;
+  width: calc(7 * var(--boardsize) + 7 * 2 * var(--margin));
+  height: calc(6 * var(--boardsize) + 6 * 2 * var(--margin));
+
+  top: 0;
+}
+
+.column:hover {
+  background-color: red;
+}
+
 #board {
   width: calc(7 * var(--boardsize) + 7 * 2 * var(--margin));
   height: calc(6 * var(--boardsize) + 6 * 2 * var(--margin));
   background-color: blue;
   padding: 10px;
+  position: relative;
 }

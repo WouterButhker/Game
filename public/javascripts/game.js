@@ -1,5 +1,4 @@
 console.log("HETT");
-var square = document.getElementById("square");
 
 let elapsedTime = -1;
 let elapsedSeconds = 0;
@@ -12,11 +11,19 @@ for (let i = 41; i >= 0; i--) {
     let circle = document.createElement("div");
     circle.classList.add("circle");
     circle.id = Math.floor(i / 7) + "" + i % 7;
-    square.appendChild(circle);
+    document.getElementById("square").appendChild(circle);
+}
+
+for (let i = 0; i < 7; i++) {
+    let column = document.createElement("div");
+    column.classList.add("column");
+    column.id = i.toString();
+    document.getElementById("columns").appendChild(column);
 }
 
 timer();
 setInterval(timer, 10);
+
 
 function timer() {
     //Increment elapsed timer
