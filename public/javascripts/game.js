@@ -9,4 +9,5 @@ for (let i = 0; i < 42; i++) {
     square.appendChild(circle);
 }
 
-document.getElementById("15").classList.add("red");
+document.getElementById("43").classList.add("red");
+document.getElementById("53").classList.add("yellow");
