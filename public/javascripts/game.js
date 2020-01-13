@@ -1,5 +1,3 @@
-var square = document.getElementById("square");
-
 let elapsedTime = -1;
 let elapsedSeconds = 0;
 let elapsedMinutes = 0;
@@ -9,13 +7,14 @@ let ficheArray;
 let timerID;
 let lastFiche;
 let finished = false;
-let millisecondsPerSecond = 100;
+let millisecondsPerSecond = 1000;
 
 ficheArray = [];
 for (let i = 0; i < 7; i++) {
     ficheArray[i] = [];
 }
 
+// create board
 for (let i = 41; i >= 0; i--) {
     let circle = document.createElement("div");
     circle.classList.add("circle");
@@ -23,6 +22,7 @@ for (let i = 41; i >= 0; i--) {
     document.getElementById("square").appendChild(circle);
 }
 
+// create clickable columns
 for (let i = 0; i < 7; i++) {
     let column = document.createElement("div");
     column.classList.add("column");
@@ -72,7 +72,7 @@ function timer() {
 }
 
 function updateTurn() {
-    if (scanHorizontal() || scanVertical())
+    if (scanH(true) || scanH(false))
         return;
     let turnID = document.getElementById("turnID").innerHTML;
     if (turnID === "RED")
@@ -110,12 +110,50 @@ function finish() {
     clearInterval(timerID);
 }
 
-function scanHorizontal() {
-    for (let y = 0; y < 7; y++) {
+// function scanHorizontal() {
+//     for (let y = 0; y < 7; y++) {
+//         let lastColor = null;
+//         let consecutive = 1;
+//         for (let x = 0; x < 6; x++) {
+//             let currentColor = ficheArray[y][x];
+//             if (currentColor === lastColor && currentColor != null)
+//                 consecutive++;
+//             else
+//                 consecutive = 1;
+//             lastColor = currentColor;
+//             if (consecutive === 4) {
+//                 document.getElementById("winner").innerHTML = "The winner is " + currentColor;
+//                 console.log("The winner is " + currentColor);
+//                 console.log(y + ", " + x);
+//                 finish();
+//                 return true;
+//             }
+//         }
+//     }
+//     return false;
+// }
+
+function scanH(horizontal) {
+    // TODO: refactor better
+    // wtf is a b c d
+    // kan beter
+    let c, d;
+    if (horizontal) {
+        c = 7;
+        d = 6;
+    } else {
+        c = 6;
+        d = 7;
+    }
+
+    for (let a = 0; a < c; a++) {
         let lastColor = null;
         let consecutive = 1;
-        for (let x = 0; x < 6; x++) {
-            let currentColor = ficheArray[y][x];
+        for (let b = 0; b < d; b++) {
+            let currentColor;
+            if (horizontal) currentColor = ficheArray[a][b];
+            else currentColor = ficheArray[b][a];
+
             if (currentColor === lastColor && currentColor != null)
                 consecutive++;
             else
@@ -124,7 +162,8 @@ function scanHorizontal() {
             if (consecutive === 4) {
                 document.getElementById("winner").innerHTML = "The winner is " + currentColor;
                 console.log("The winner is " + currentColor);
-                console.log(y + ", " + x);
+                // TODO
+                console.log(a + ", " + b);
                 finish();
                 return true;
             }
@@ -133,28 +172,28 @@ function scanHorizontal() {
     return false;
 }
 
-function scanVertical() {
-    for (let x = 0; x < 6; x++) {
-        let lastColor = null;
-        let consecutive = 1;
-        for (let y = 0; y < 7; y++) {
-            let currentColor = ficheArray[y][x];
-            if (currentColor === lastColor && currentColor != null)
-                consecutive++;
-            else
-                consecutive = 1;
-            lastColor = currentColor;
-            if (consecutive === 4) {
-                document.getElementById("winner").innerHTML = "The winner is " + currentColor;
-                console.log("The winner is " + currentColor)
-                console.log(y + ", " + x);
-                finish();
-                return true;
-            }
-        }
-    }
-    return false;
-}
+// function scanVertical() {
+//     for (let x = 0; x < 6; x++) {
+//         let lastColor = null;
+//         let consecutive = 1;
+//         for (let y = 0; y < 7; y++) {
+//             let currentColor = ficheArray[y][x];
+//             if (currentColor === lastColor && currentColor != null)
+//                 consecutive++;
+//             else
+//                 consecutive = 1;
+//             lastColor = currentColor;
+//             if (consecutive === 4) {
+//                 document.getElementById("winner").innerHTML = "The winner is " + currentColor;
+//                 console.log("The winner is " + currentColor);
+//                 console.log(y + ", " + x);
+//                 finish();
+//                 return true;
+//             }
+//         }
+//     }
+//     return false;
+// }
 
 function logColors() {
     for (let x = 0; x < 7; x++) {
