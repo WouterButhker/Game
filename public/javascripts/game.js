@@ -1,11 +1,18 @@
-console.log("HETT");
+var square = document.getElementById("square");
 
 let elapsedTime = -1;
 let elapsedSeconds = 0;
 let elapsedMinutes = 0;
 let turnTimer = 31;
-
 let numberOfFiches = 0;
+let ficheArray;
+let timerID;
+let lastFiche;
+
+ficheArray = [];
+for (let i = 0; i < 7; i++) {
+    ficheArray[i] = [];
+}
 
 for (let i = 41; i >= 0; i--) {
     let circle = document.createElement("div");
@@ -22,7 +29,8 @@ for (let i = 0; i < 7; i++) {
 }
 
 timer();
-setInterval(timer, 10);
+timerID = setInterval(timer, 10);
+console.log("timer set!");
 
 
 function timer() {
@@ -50,12 +58,19 @@ function timer() {
 
     document.getElementById("elapsed").innerHTML = "Time elapsed: " + elapsedMinutes + ":" + optionalTimerZero + elapsedSeconds;
     document.getElementById("turnTimer").innerHTML = "Turn timer: 0:" + optionalTurnZero + turnTimer;
+
+    if (numberOfFiches >= 42) {
+        finish();
+    }
+
 }
 
 function updateTurn() {
+    if (scanHorizontal() || scanVertical())
+        return;
     let turnID = document.getElementById("turnID").innerHTML;
     let valid = dropFiche(Math.floor(Math.random() * 7));
-    while ( (!valid) && numberOfFiches < 42)
+    while ((!valid) && numberOfFiches < 42)
         valid = dropFiche(Math.floor(Math.random() * 7));
     if (turnID === "RED")
         document.getElementById("turnID").innerHTML = "YELLOW";
@@ -74,10 +89,81 @@ function dropFiche(y) {
 
         if (!(isRed || isYellow)) {
             classList.add(turnID.toLowerCase());
-            numberOfFiches ++;
+            ficheArray[x][y] = turnID.toLowerCase();
+            lastFiche = classList;
+            numberOfFiches++;
             return true;
-            break;
         }
     }
     return false;
 }
+
+function finish() {
+    document.getElementById("finished").innerHTML = "yes";
+    console.log("FINISHED!!");
+    clearInterval(timerID);
+}
+
+function scanHorizontal(){
+    for (let y = 0; y < 7; y++) {
+        let lastColor = null;
+        let consecutive = 1;
+        for (let x = 0; x < 6; x++) {
+            let currentColor = ficheArray[y][x];
+            if (currentColor === lastColor && currentColor != null)
+                consecutive++;
+            else
+                consecutive = 1;
+            lastColor = currentColor;
+            if (consecutive === 4) {
+                document.getElementById("winner").innerHTML = "The winner is " + currentColor;
+                console.log("The winner is " + currentColor);
+                console.log(y + ", " + x);
+                finish();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function scanVertical(){
+    for (let x = 0; x < 6; x++) {
+        let lastColor = null;
+        let consecutive = 1;
+        for (let y = 0; y < 7; y++) {
+            let currentColor = ficheArray[y][x];
+            if (currentColor === lastColor && currentColor != null)
+                consecutive++;
+            else
+                consecutive = 1;
+            lastColor = currentColor;
+            if (consecutive === 4) {
+                document.getElementById("winner").innerHTML = "The winner is " + currentColor;
+                console.log("The winner is " + currentColor)
+                console.log(y + ", " + x);
+                finish();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function logColors() {
+    for (let x = 0; x < 7; x++) {
+        for (let y = 0; y < 6; y++) {
+            let currentColor = ficheArray[x][y];
+            console.log("Array indexes: " + x + ", " + y);
+            console.log(currentColor);
+        }
+    }
+}
+
+function kill(){
+    clearInterval(timerID);
+}
+
+
+
+
