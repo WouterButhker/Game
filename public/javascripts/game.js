@@ -8,6 +8,7 @@ let numberOfFiches = 0;
 let ficheArray;
 let timerID;
 let lastFiche;
+let finished = false;
 
 ficheArray = [];
 for (let i = 0; i < 7; i++) {
@@ -26,10 +27,11 @@ for (let i = 0; i < 7; i++) {
     column.classList.add("column");
     column.id = i.toString();
     document.getElementById("columns").appendChild(column);
+    column.addEventListener("click", function(){dropFiche(i)});
 }
 
 timer();
-timerID = setInterval(timer, 10);
+timerID = setInterval(timer, 1000);
 console.log("timer set!");
 
 
@@ -69,9 +71,9 @@ function updateTurn() {
     if (scanHorizontal() || scanVertical())
         return;
     let turnID = document.getElementById("turnID").innerHTML;
-    let valid = dropFiche(Math.floor(Math.random() * 7));
-    while ((!valid) && numberOfFiches < 42)
-        valid = dropFiche(Math.floor(Math.random() * 7));
+    // let valid = dropFiche(Math.floor(Math.random() * 7));
+    // while ((!valid) && numberOfFiches < 42)
+    //     valid = dropFiche(Math.floor(Math.random() * 7));
     if (turnID === "RED")
         document.getElementById("turnID").innerHTML = "YELLOW";
     if (turnID === "YELLOW")
@@ -79,7 +81,7 @@ function updateTurn() {
 }
 
 function dropFiche(y) {
-    if (y < 0 || y > 6)
+    if (y < 0 || y > 6 || finished)
         return false;
     for (let x = 0; x < 6; x++) {
         let classList = document.getElementById(x + "" + y).classList;
@@ -92,6 +94,7 @@ function dropFiche(y) {
             ficheArray[x][y] = turnID.toLowerCase();
             lastFiche = classList;
             numberOfFiches++;
+            updateTurn();
             return true;
         }
     }
@@ -101,6 +104,7 @@ function dropFiche(y) {
 function finish() {
     document.getElementById("finished").innerHTML = "yes";
     console.log("FINISHED!!");
+    finished = true;
     clearInterval(timerID);
 }
 
