@@ -139,11 +139,11 @@ function scanH(horizontal) {
     // kan beter
     let c, d;
     if (horizontal) {
-        c = 7;
-        d = 6;
-    } else {
         c = 6;
         d = 7;
+    } else {
+        c = 7;
+        d = 6;
     }
 
     for (let a = 0; a < c; a++) {
