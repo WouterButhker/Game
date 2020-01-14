@@ -1,15 +1,9 @@
-let elapsedTime = -1;
-let elapsedSeconds = 0;
-let elapsedMinutes = 0;
-let turnTimer = 31;
+let elapsedTime = 0;
 let numberOfFiches = 0;
-let ficheArray;
 let timerID;
-let lastFiche;
 let finished = false;
-let millisecondsPerSecond = 1000;
 
-ficheArray = [];
+let ficheArray = [];
 for (let i = 0; i < 7; i++) {
     ficheArray[i] = [];
 }
@@ -34,27 +28,22 @@ for (let i = 0; i < 7; i++) {
 }
 
 timer();
-timerID = setInterval(timer, millisecondsPerSecond);
+timerID = setInterval(timer, 1000);
 console.log("timer set!");
 
 
 function timer() {
-    //Increment elapsed timer
-    elapsedTime++;
-    elapsedMinutes = Math.floor(elapsedTime / 60);
-    elapsedSeconds = elapsedTime % 60;
+    let turnTimer = 30 - (elapsedTime % 30);
+    let elapsedMinutes = Math.floor(elapsedTime / 60);
+    let elapsedSeconds = elapsedTime % 60;
 
     let optionalTimerZero = "";
     if (elapsedSeconds < 10) {
         optionalTimerZero = "0";
     }
 
-    //Decrement turn timer
-    turnTimer--;
-    if (turnTimer < 0) {
-        let valid = dropFiche(Math.floor(Math.random() * 7));
-        while ((!valid) && numberOfFiches < 42)
-            valid = dropFiche(Math.floor(Math.random() * 7));
+    if (elapsedTime % 30 === 0) {
+        updateTurn();
     }
 
     let optionalTurnZero = "";
@@ -68,7 +57,7 @@ function timer() {
     if (numberOfFiches >= 42) {
         finish();
     }
-
+    elapsedTime ++;
 }
 
 function updateTurn() {
@@ -94,7 +83,6 @@ function dropFiche(y) {
         if (!(isRed || isYellow)) {
             classList.add(turnID.toLowerCase());
             ficheArray[x][y] = turnID.toLowerCase();
-            lastFiche = classList;
             numberOfFiches++;
             updateTurn();
             return true;
@@ -109,29 +97,6 @@ function finish() {
     finished = true;
     clearInterval(timerID);
 }
-
-// function scanHorizontal() {
-//     for (let y = 0; y < 7; y++) {
-//         let lastColor = null;
-//         let consecutive = 1;
-//         for (let x = 0; x < 6; x++) {
-//             let currentColor = ficheArray[y][x];
-//             if (currentColor === lastColor && currentColor != null)
-//                 consecutive++;
-//             else
-//                 consecutive = 1;
-//             lastColor = currentColor;
-//             if (consecutive === 4) {
-//                 document.getElementById("winner").innerHTML = "The winner is " + currentColor;
-//                 console.log("The winner is " + currentColor);
-//                 console.log(y + ", " + x);
-//                 finish();
-//                 return true;
-//             }
-//         }
-//     }
-//     return false;
-// }
 
 function scanH(horizontal) {
     // TODO: refactor better
@@ -172,29 +137,6 @@ function scanH(horizontal) {
     return false;
 }
 
-// function scanVertical() {
-//     for (let x = 0; x < 6; x++) {
-//         let lastColor = null;
-//         let consecutive = 1;
-//         for (let y = 0; y < 7; y++) {
-//             let currentColor = ficheArray[y][x];
-//             if (currentColor === lastColor && currentColor != null)
-//                 consecutive++;
-//             else
-//                 consecutive = 1;
-//             lastColor = currentColor;
-//             if (consecutive === 4) {
-//                 document.getElementById("winner").innerHTML = "The winner is " + currentColor;
-//                 console.log("The winner is " + currentColor);
-//                 console.log(y + ", " + x);
-//                 finish();
-//                 return true;
-//             }
-//         }
-//     }
-//     return false;
-// }
-
 function logColors() {
     for (let x = 0; x < 7; x++) {
         for (let y = 0; y < 6; y++) {
@@ -207,6 +149,21 @@ function logColors() {
 
 function kill() {
     clearInterval(timerID);
+}
+
+function sendMove(move) {
+    let socket = new WebSocket("ws://localhost:3000");
+    socket.onmessage = function (event) {
+        console.log(event.data);
+    }
+    socket.onopen = function () {
+        socket.send(JSON.stringify(move));
+    };
+}
+
+function colorFiche(move)
+{
+
 }
 
 

@@ -1,15 +1,32 @@
-var express = require("express");
-var http = require("http");
-var indexRouter = require("./routes/index");
+let express = require("express");
+let http = require("http");
+let indexRouter = require("./routes/index");
+let websocket = require("ws");
+let port = process.argv[2];
+let app = express();
 
-var port = process.argv[2];
-var app = express();
+ficheArray = [];
+for (let i = 0; i < 7; i++) {
+    ficheArray[i] = [];
+}
 
 app.use(express.static(__dirname + "/public"));
 
 app.get("/", indexRouter);
 app.get("/play", indexRouter);
 
-http.createServer(app).listen(port);
+let server = http.createServer(app).listen(port);
+const socket = new websocket.Server({server});
+
+socket.on("connection", function (ws) {
+    console.log("Connection state: " + ws.readyState);
+    ws.send("Thanks for the message. --Your server.");
+    console.log("Connection state: " + ws.readyState);
+
+    ws.on("message", function incoming(message) {
+        message = JSON.parse(message);
+        console.log("[LOG] " + message.color);
+    });
+});
 
 
