@@ -1,19 +1,18 @@
 let express = require("express");
 let http = require("http");
-let indexRouter = require("./routes/index");
+
 let websocket = require("ws");
 let port = process.argv[2];
 let app = express();
+require("./routes/index")(app);
+app.use(express.static(__dirname + "/public"));
 
 ficheArray = [];
 for (let i = 0; i < 7; i++) {
     ficheArray[i] = [];
 }
 
-app.use(express.static(__dirname + "/public"));
 
-app.get("/", indexRouter);
-app.get("/play", indexRouter);
 
 let server = http.createServer(app).listen(port);
 const socket = new websocket.Server({server});
