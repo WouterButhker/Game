@@ -29,8 +29,8 @@ socket.onmessage = function(event) {
     let board = JSON.parse(data)
     //console.table(board);
 
-    for (let y = 0; y < 7; y++) {
-        for (let x = 0; x < 6; x++) {
+    for (let y = 0; y < 6; y++) {
+        for (let x = 0; x < 7; x++) {
             if (board[x][y] !== undefined) {
                 document.getElementById(y + "" + x).classList.add(board[x][y]);
             }
