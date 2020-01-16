@@ -11,17 +11,18 @@ let app = express();
 require("./routes/index")(app);
 app.use(express.static(__dirname + "/public"));
 
-// TODO meer games tegelijk fixen
 let currentGames = [];
 currentGames[0] = new Game();
 let gameCounter = 1;
+setInterval(clock, 1000);
 
 function Game() {
     this.player1 = null;
     this.player2 = null;
-    this.gameNumber = 0;
     this.turn = "red";
     this.board = [];
+    this.secondsLeft = 30;
+    this.ongoing = false;
     for (let i = 0; i < 7; i++) {
         this.board[i] = [];
     }
@@ -54,6 +55,7 @@ function Game() {
     this.startGame = function () {
         if (this.bothPlayersPresent()) {
             this.sendToPlayers("startGame");
+            this.ongoing = true;
         }
     };
 
@@ -80,90 +82,56 @@ function Game() {
         return false;
     };
 
-
     this.nextTurn = function () {
+        let finished = this.checkFinished(true) || this.checkFinished(false);
+        this.sendToPlayers(JSON.stringify(this.board));
+        if (finished){
+            this.finish();
+            return;
+        }
         if (this.turn === "red") this.turn = "yellow";
         else this.turn = "red";
+        this.secondsLeft = 30;
         this.sendToPlayers("nextTurn");
     };
+
+    this.checkFinished = function(horizontal){
+        let c, d;
+        if (horizontal) {
+            c = 6;
+            d = 7;
+        } else {
+            c = 7;
+            d = 6;
+        }
+
+        for (let a = 0; a < c; a++) {
+            let lastColor = null;
+            let consecutive = 1;
+            for (let b = 0; b < d; b++) {
+                let currentColor;
+                if (horizontal) currentColor = this.board[a][b];
+                else currentColor = this.board[b][a];
+
+                if (currentColor === lastColor && currentColor != null)
+                    consecutive++;
+                else
+                    consecutive = 1;
+                lastColor = currentColor;
+                if (consecutive === 4) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+
+    this.finish = function(){
+        this.sendToPlayers("finished");
+        this.ongoing = false;
+    }
+
 }
-
-
-//
-// var gameObj = {
-//     player1: null,
-//     player2: null,
-//     gameNumber: 0,
-//     turn: "red",
-//     board: [],
-//     init: function () {                      //Create 2d array for the board
-//         this.board = [];
-//         for (let i = 0; i < 7; i++) {
-//             this.board[i] = [];
-//         }
-//     },
-//     fichesPlayed: 0,
-//     addPlayer: function (ws) {
-//         if (this.player1 == null) {
-//             this.player1 = ws;
-//             return true;
-//         } else if (this.player2 == null) {
-//             this.player2 = ws;
-//             return true
-//         } else {
-//             return false;
-//         }
-//     },
-//     bothPlayersPresent: function () {
-//         return this.player1 != null && this.player2 != null;
-//     },
-//
-//     sendIdentities: function () {
-//         if (this.bothPlayersPresent()) {
-//             this.player1.send(this.player1.color);
-//             this.player2.send(this.player2.color);
-//         }
-//     },
-//     startGame: function () {
-//         if (this.bothPlayersPresent()) {
-//             this.sendToPlayers("startGame");
-//         }
-//     },
-//     sendToPlayers: function (message) {
-//         if (this.bothPlayersPresent()) {
-//             this.player1.send(message);
-//             this.player2.send(message);
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     },
-//     drop: function (player, column) {
-//         console.log(this.board);
-//
-//         for (let i = 0; i < 6; i++) {
-//             if (this.board[column][i] === undefined) {
-//                 this.board[column][i] = player.color;
-//                 this.nextTurn();
-//                 return true;
-//             }
-//         }
-//         return false;
-//     },
-//     nextTurn: function () {
-//         if (this.turn === "red") this.turn = "yellow";
-//         else this.turn = "red";
-//         this.sendToPlayers("nextTurn");
-//     }
-// };
-
-//
-// var statistics = {
-//     numberOfPlayers: 0,
-//     totalGamesPlayed: 0,
-//     fastestGamePlayed: "none"
-// };
-
 
 let server = http.createServer(app);
 const socket = new websocket.Server({server});
@@ -172,8 +140,7 @@ socket.on("connection", function (ws) {
 
     let game = currentGames[gameCounter - 1];
     game.addPlayer(ws);
-    if (game.bothPlayersPresent())
-    {
+    if (game.bothPlayersPresent()) {
         currentGames[gameCounter] = new Game();
         gameCounter++;
         game.player1.color = "red";
@@ -200,12 +167,24 @@ socket.on("connection", function (ws) {
         if (success) {
 
         }
-
-        game.sendToPlayers(JSON.stringify(game.board));
-
     });
 });
 
+function clock() {
+    for (let i = 0; i < currentGames.length; i++) {
+        let game = currentGames[i];
+        if (game.ongoing) {
+            if (game.secondsLeft === 0) {
+                game.secondsLeft = 30;
+                game.nextTurn();
+            }
+            else{
+                game.secondsLeft--;
+            }
+            console.log(game.secondsLeft);
+        }
+    }
+}
 
 server.listen(port);
 
