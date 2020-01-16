@@ -1,0 +1,26 @@
+body{
+    background-color: #89D2DC;
+}
+
+div {
+    font: 25px "Arial Nova Light";
+    text-align: center;
+}
+
+#statistics{
+    text-align: left;
+    font: 15px "Trebuchet MS";
+}
+#title{
+    position: relative;
+    top:130px;
+}
+
+h1, h4{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+h1{
+    font-size: 60px;
+}

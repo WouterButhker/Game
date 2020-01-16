@@ -2,45 +2,45 @@ let socket = new WebSocket("ws://localhost:3000");
 let elapsedTime = 0;
 let secondsLeft = 30;
 let timerID;
+let opponentName = "Anonymous Owl";
 
 /**
  * Server connectivity stuff
  */
-socket.onopen = function() {
+socket.onopen = function () {
     console.log("Successfully connected to server")
 };
 
-socket.onmessage = function(event) {
+socket.onmessage = function (event) {
     let data = event.data;
-    if (data === "red" || data === "yellow"){
+
+    if (data === "red" || data === "yellow") {
         document.getElementById("color").innerHTML = data;
         return;
-    }
-
-    if (data === "startGame"){
+    } else if (data === "terminated") {
+        clearInterval(timerID);
+        document.getElementById("finished").innerHTML = "yes";
+        document.getElementById("winner").innerHTML = "The other player has left the game";
+    } else if (data === "startGame") {
         timer();
         timerID = setInterval(timer, 1000);
-    }
-
-    if (data === "finished"){
+    } else if (data === "finished") {
         clearInterval(timerID);
         document.getElementById("finished").innerHTML = "yes";
         document.getElementById("winner").innerHTML = "The winner is " + document.getElementById("turnID").innerHTML;
-    }
-
-    if (data === "nextTurn")
-    {
+    } else if (data === "nextTurn") {
         updateTurn();
-        return;
-    }
+    } else if (data.startsWith("opponent=")) {
+        opponentName = data.split("=")[1];
+    } else {
+        let board = JSON.parse(data)
+        //console.table(board);
 
-    let board = JSON.parse(data)
-    //console.table(board);
-
-    for (let y = 0; y < 6; y++) {
-        for (let x = 0; x < 7; x++) {
-            if (board[x][y] !== undefined) {
-                document.getElementById(y + "" + x).classList.add(board[x][y]);
+        for (let y = 0; y < 6; y++) {
+            for (let x = 0; x < 7; x++) {
+                if (board[x][y] !== undefined) {
+                    document.getElementById(y + "" + x).classList.add(board[x][y]);
+                }
             }
         }
     }
@@ -64,16 +64,17 @@ for (let i = 0; i < 7; i++) {
     column.id = i.toString();
     document.getElementById("columns").appendChild(column);
     column.addEventListener("click", function () {
+        socket.send("name=" + document.getElementById("nickname").value);
         socket.send(i + "");
-        console.log("Client: Put some shit in " + i);
     });
 }
 
 function timer() {
     refreshPage();
-    elapsedTime ++;
-    secondsLeft --;
+    elapsedTime++;
+    secondsLeft--;
 }
+
 //
 function updateTurn() {
     let turnID = document.getElementById("turnID").innerHTML;
@@ -86,7 +87,7 @@ function updateTurn() {
     refreshPage();
 }
 
-function refreshPage(){
+function refreshPage() {
     let elapsedMinutes = Math.floor(elapsedTime / 60);
     let elapsedSeconds = elapsedTime % 60;
 
@@ -100,43 +101,10 @@ function refreshPage(){
         optionalTurnZero = "0";
     }
 
-    document.getElementById("elapsed").innerHTML = "Time elapsed: " + elapsedMinutes + ":" + optionalTimerZero + elapsedSeconds;
-    document.getElementById("turnTimer").innerHTML = "Turn timer: 0:" + optionalTurnZero + secondsLeft;
+    document.getElementById("elapsed").innerHTML = "Time elapsed: " + elapsedMinutes + ":" + optionalTimerZero + elapsedSeconds + "<br/>";
+    document.getElementById("turnTimer").innerHTML = "Turn timer: 0:" + optionalTurnZero + secondsLeft + "<br/>";
+    document.getElementById("opponentName").innerHTML = opponentName;
 }
-
-
-
-
-//
-// function logColors() {
-//     for (let x = 0; x < 7; x++) {
-//         for (let y = 0; y < 6; y++) {
-//             let currentColor = ficheArray[x][y];
-//             console.log("Array indexes: " + x + ", " + y);
-//             console.log(currentColor);
-//         }
-//     }
-// }
-//
-// function kill() {
-//     clearInterval(timerID);
-// }
-//
-// function sendMove(move) {
-//     let socket = new WebSocket("ws://localhost:3000");
-//     socket.onmessage = function (event) {
-//         console.log(event.data);
-//     }
-//     socket.onopen = function () {
-//         socket.send(JSON.stringify(move));
-//     };
-// }
-//
-// function colorFiche(move)
-// {
-//
-// }
-
 
 
 

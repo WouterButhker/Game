@@ -32,14 +32,23 @@ function Game() {
     this.addPlayer = function (ws) {
         if (this.player1 == null) {
             this.player1 = ws;
+            this.player1.name = "Anonymous Owl";
             return true;
         } else if (this.player2 == null) {
             this.player2 = ws;
+            this.player2.name = "Anonymous Owl";
             return true
         } else {
             return false;
         }
     };
+    this.removePlayer = function (ws) {
+        if (this.player1 === ws)
+            this.player1 = null;
+        else if (this.player2 === ws)
+            this.player2 = null;
+    }
+
     this.bothPlayersPresent = function () {
         return this.player1 != null && this.player2 != null;
     };
@@ -70,8 +79,6 @@ function Game() {
     };
 
     this.drop = function (player, column) {
-        console.log(this.board);
-
         for (let i = 0; i < 6; i++) {
             if (this.board[column][i] === undefined) {
                 this.board[column][i] = player.color;
@@ -84,8 +91,10 @@ function Game() {
 
     this.nextTurn = function () {
         let finished = this.checkFinished(true) || this.checkFinished(false);
+        this.player1.send("opponent="+this.player2.name);
+        this.player2.send("opponent="+this.player1.name);
         this.sendToPlayers(JSON.stringify(this.board));
-        if (finished){
+        if (finished) {
             this.finish();
             return;
         }
@@ -95,7 +104,7 @@ function Game() {
         this.sendToPlayers("nextTurn");
     };
 
-    this.checkFinished = function(horizontal){
+    this.checkFinished = function (horizontal) {
         let c, d;
         if (horizontal) {
             c = 6;
@@ -126,7 +135,7 @@ function Game() {
         return false;
     };
 
-    this.finish = function(){
+    this.finish = function () {
         this.sendToPlayers("finished");
         this.ongoing = false;
     }
@@ -151,14 +160,17 @@ socket.on("connection", function (ws) {
 
 
     ws.on("message", function incoming(message) {
-        //message = JSON.parse(message);
-        console.log("[LOG] " + message);
         let isPlayer1 = game.player1 === ws;
-        if (isPlayer1) console.log("Player 1: Put some shit in " + message);
-        else console.log("Player 2: Put some shit in " + message);
-
         let color = isPlayer1 ? game.player1.color : game.player2.color;
         let player = isPlayer1 ? game.player1 : game.player2;
+
+        if (message.startsWith("name="))
+        {
+            player.name = message.split("=")[1];
+            console.log(player.name + " ontvangen");
+            return;
+        }
+
         let success = false;
         if (game.turn === color) {
             success = game.drop(player, message);
@@ -168,7 +180,19 @@ socket.on("connection", function (ws) {
 
         }
     });
+
+    ws.on("close", function closing(x, y) {
+            console.log("F");
+            game.removePlayer(ws);
+            if (game.player1 !== null)
+                game.player1.send("terminated");
+            if (game.player2 !== null)
+                game.player2.send("terminated");
+            game.ongoing = false;
+        }
+    )
 });
+
 
 function clock() {
     for (let i = 0; i < currentGames.length; i++) {
@@ -177,11 +201,9 @@ function clock() {
             if (game.secondsLeft === 0) {
                 game.secondsLeft = 30;
                 game.nextTurn();
-            }
-            else{
+            } else {
                 game.secondsLeft--;
             }
-            console.log(game.secondsLeft);
         }
     }
 }

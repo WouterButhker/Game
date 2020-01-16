@@ -57,3 +57,10 @@ b {
   padding: 10px;
   position: relative;
 }
+
+#info {
+  font: 20px "Arial Nova Light";
+  position: relative;
+  left: 400px;
+  bottom: 338px;
+}
