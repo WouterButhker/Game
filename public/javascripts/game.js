@@ -47,6 +47,8 @@ socket.onmessage = function (event) {
             for (let x = 0; x < 7; x++) {
                 if (board[x][y] !== undefined) {
                     document.getElementById(y + "" + x).classList.add(board[x][y]);
+                    let audio = new Audio('../resources/click.wav');
+                    audio.play();
                 }
             }
         }
