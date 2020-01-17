@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="stylesheets\style.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets\game.css">
     <meta charset="UTF-8">
     <title>Connect 4!</title>
 </head>
 <body>
+<div class="background_image"></div>
 <div id="board">
     <div id="square">
+    </div>
+    <div id="columns">
     </div>
     <div id="info">
         <span id="elapsed">Time elapsed: 0:00 (waiting for another player to join the game)<br/></span>
@@ -17,16 +20,19 @@
         <span>Your color: <span id="color">TBD</span><br/></span>
         <span>You are playing against: <span id="opponentName">TBD</span><br/></span>
         <span id="winner"></span>
-        <input type="text" name="name" id="nickname" value="Anonymous Owl"/>
-    </div>
-    <div id="columns">
-
     </div>
 </div>
+
+<div id="input-field">
+    <span>Please enter your nickname: <br/></span>
+    <input type="text" name="name" id="nickname" placeholder="Anonymous Owl" autocomplete="off"/>
+</div>
+
 <div id="win-screen">
-<!--</div><div id="win-background">-->
-<!--</div>-->
-<script src="javascripts\game.js"></script>
-</div></body>
+    <!--</div><div id="win-background">-->
+    <!--</div>-->
+    <script src="javascripts\game.js"></script>
+</div>
+</body>
 
 </html>

@@ -6,7 +6,8 @@
 
 body {
   padding: 50px;
-  font: 40px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 40px "Segoe UI Semibold";
+  color: white;
 }
 
 b {
@@ -17,7 +18,7 @@ b {
   width: var(--boardsize);
   height: var(--boardsize);
   border-radius: 50%;
-  background-color: white;
+  background-color: WHITE;
   float: right;
   margin: 2px;
 }
@@ -53,17 +54,29 @@ b {
 #board {
   width: calc(7 * var(--boardsize) + 7 * 2 * var(--margin));
   height: calc(6 * var(--boardsize) + 6 * 2 * var(--margin));
-  background-color: blue;
+  background-color: #011627;
   padding: 10px;
   position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #info {
-  font: 20px "Arial Nova Light";
+  font: 20px "Segoe UI Light";
   position: relative;
-  left: 400px;
   bottom: 338px;
+  left: calc(7 * var(--boardsize) + 7 * 2 * var(--margin) );
+
 }
+
+#input-field{
+  font: 20px "Segoe UI Light";
+}
+
+input{
+  font: 20px "Segoe UI Light";
+}
+
 
 #win-background {
   width: calc(7 * var(--boardsize) + 7 * 2 * var(--margin));
@@ -73,4 +86,16 @@ b {
   position: relative;
   bottom: 260px;
   left: 10px;
+}
+
+.background_image {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  z-index: -100;
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+  background-color: #89D2DC;
+  background-image: url("background.jpg");
+  transform: scale(1.2);
 }
