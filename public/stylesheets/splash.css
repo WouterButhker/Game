@@ -7,6 +7,15 @@ div {
     text-align: center;
     color: WHITE;
 }
+.button {
+    background-color: #C64C38;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: 10px;
+}
 
 .background_image {
     position: absolute;
@@ -21,9 +30,14 @@ div {
 }
 
 #statistics{
-    text-align: left;
-    font: 15px "Segoe UI Light";
-
+    position: relative;
+    text-align: center;
+    font: 25px "Segoe UI Light";
+    top: -110px;
+    transition: top 1s;
+}
+#statistics:hover{
+    top: 0px;
 }
 #title{
     position: relative;
@@ -32,7 +46,7 @@ div {
     border: 20px;
     animation-name: fadeIn;
     animation-duration: 2s;
-    top: 150px;
+    top: 75px;
 }
 
 h1, h4{
@@ -40,19 +54,8 @@ h1, h4{
     margin-bottom: 0;
 }
 
-.button {
-    background-color: #C64C38;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-decoration: none;
-    font-size: 16px;
-    margin-top: 10px;
-}
-
 @keyframes fadeIn {
     0% {top: 0px; opacity: 0}
-    50% {top: 150px; opacity: 0.8}
-    100% {top: 150px; opacity: 1}
-
+    50% {top: 75px; opacity: 0.8}
+    100% {top: 75px; opacity: 1}
 }
