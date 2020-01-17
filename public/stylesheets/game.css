@@ -1,9 +1,7 @@
 
 :root {
-  --circleSize: 50px;
-  --circleMargin: 2px;
-  --boardHeight: calc(6 * var(--circleSize));
-  --boardWidth: calc(7 * var(--circleSize));
+  --boardsize: 50px;
+  --margin: 2px;
 }
 
 body {
@@ -17,8 +15,8 @@ b {
 }
 
 .circle {
-  width: var(--circleSize);
-  height: var(--circleSize);
+  width: var(--boardsize);
+  height: var(--boardsize);
   border-radius: 50%;
   background-color: WHITE;
   float: right;
@@ -34,8 +32,8 @@ b {
 }
 
 .column {
-  height: var(--boardHeight);
-  width: var(--circleSize);
+  height: calc(6 * var(--boardsize) + 7 * 2 * var(--margin));
+  width: var(--boardsize);
   opacity: 50%;
   float: left;
   padding: 2px;
@@ -43,8 +41,8 @@ b {
 
 #columns {
   position: absolute;
-  width: calc(7 * var(--circleSize));
-  height: calc(6 * var(--circleSize));
+  width: calc(7 * var(--boardsize) + 7 * 2 * var(--margin));
+  height: calc(6 * var(--boardsize) + 6 * 2 * var(--margin));
 
   top: 0;
 }
@@ -54,8 +52,8 @@ b {
 }
 
 #board {
-  width: calc(7 * var(--circleSize) + 40px);
-  height: calc(6 * var(--circleSize) + 40px);
+  width: calc(7 * var(--boardsize) + 7 * 2 * var(--margin));
+  height: calc(6 * var(--boardsize) + 6 * 2 * var(--margin));
   background-color: #011627;
   padding: 10px;
   position: relative;
@@ -67,7 +65,7 @@ b {
   font: 20px "Segoe UI Light";
   position: relative;
   bottom: 338px;
-  left: calc(7 * var(--circleSize) + 7 * 2 * var(--circleMargin)  + 30px);
+  left: calc(7 * var(--boardsize) + 7 * 2 * var(--margin) );
 
 }
 
@@ -81,8 +79,8 @@ input{
 
 
 #win-background {
-  width: calc(7 * var(--circleSize) + 7 * 2 * var(--circleMargin));
-  height: calc(3 * var(--circleSize) + 6 * 2 * var(--circleMargin));
+  width: calc(7 * var(--boardsize) + 7 * 2 * var(--margin));
+  height: calc(3 * var(--boardsize) + 6 * 2 * var(--margin));
   background-color: transparent;
   padding: 0px;
   position: relative;
