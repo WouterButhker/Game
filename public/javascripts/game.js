@@ -114,7 +114,7 @@ function refreshPage() {
 
     document.getElementById("elapsed").innerHTML = "Time elapsed: " + elapsedMinutes + ":" + optionalTimerZero + elapsedSeconds + "<br/>";
     document.getElementById("turnTimer").innerHTML = "Turn timer: 0:" + optionalTurnZero + secondsLeft + "<br/>";
-    document.getElementById("opponentName").innerHTML = opponentName;
+    document.getElementById("opponentName").innerHTML = opponentName
 }
 
 

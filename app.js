@@ -183,8 +183,9 @@ socket.on("connection", function (ws) {
         let player = isPlayer1 ? game.player1 : game.player2;
 
         if (message.startsWith("name=")) {
-            player.name = message.split("=")[1];
-            console.log(player.name + " ontvangen");
+            let newName = message.split("=")[1];
+            if (newName !== "")
+                player.name = newName;
             return;
         }
 

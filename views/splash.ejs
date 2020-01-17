@@ -10,7 +10,8 @@
     <div class="background_image"></div>
     <div id="statistics">
         <span>Number of current players: <%= currentGames %><br/></span>
-        <span>Total number of games played: <%= gamesPlayed %><br/></span>
+        <span>Total number of games played by all users: <%= gamesPlayed %><br/></span>
+        <span>Total number of games played by you: <span id="gamesPlayedByPlayer"></span><br/></span>
         <span>Fastest game played: <%= fastestTime %><br/></span>
         <span><b>WEBSITE STATS</b><br/></span>
     </div>
@@ -20,8 +21,15 @@
         <form action="/play" method="get">
             <button class="button">PLAY</button>
         </form>
-
     </div>
+    <div id="info">
+                            <span id="rules">Click any column to drop a disc. <br/>
+                                  The first player who lines up four disks of his color <br/>
+                                  in a row (horizontally, vertically or diagonally) wins. <br/>
+                                  Good luck</span>
+    </div>
+
 </div>
+<script src="javascripts\cookie.js"></script>
 </body>
 </html>

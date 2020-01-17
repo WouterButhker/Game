@@ -17,6 +17,10 @@ div {
     margin-top: 10px;
 }
 
+.button:HOVER{
+    background-color: #c9978f;
+}
+
 .background_image {
     position: absolute;
     height: 100vh;
@@ -33,8 +37,10 @@ div {
     position: relative;
     text-align: center;
     font: 25px "Segoe UI Light";
-    top: -110px;
+    top: -145px;
     transition: top 1s;
+    animation-name: fadeInIII;
+    animation-duration: 2s;
 }
 #statistics:hover{
     top: 0px;
@@ -46,16 +52,45 @@ div {
     border: 20px;
     animation-name: fadeIn;
     animation-duration: 2s;
+    /*font-size: 25px;*/
     top: 75px;
+    z-index: 50;
+}
+
+#info{
+    position: relative;
+    text-align: center;
+    font: 15px "Segoe UI";
+    top: 85px;
+    left: auto;
+    animation-name: fadeInII;
+    animation-duration: 2s;
+    z-index: -10;
+}
+
+#rules::after{
+    content: "!";
 }
 
 h1, h4{
     margin-top: 0;
     margin-bottom: 0;
+    text-shadow: 2px 2px BLACK;
 }
 
 @keyframes fadeIn {
     0% {top: 0px; opacity: 0}
     50% {top: 75px; opacity: 0.8}
     100% {top: 75px; opacity: 1}
+}
+
+@keyframes fadeInII {
+    0% {top: -100px; opacity: 0}
+    50% {top: 85px; opacity: 0.8}
+    100% {top: 85px; opacity: 1}
+}
+
+@keyframes fadeInIII {
+    0% {opacity: 0}
+    100% {opacity: 1}
 }

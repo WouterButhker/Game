@@ -8,6 +8,7 @@
 }
 
 body {
+  position: relative;
   padding: 50px;
   font: 40px "Segoe UI Semibold";
   color: white;
@@ -58,6 +59,12 @@ p::before {
   border-radius: 10px;
 }
 
+.square{
+  height: 500px;
+  width: 500px;
+  color: GREEN;
+}
+
 #columns {
   position: absolute;
   width: calc(var(--boardWidth) + var(--margin));
@@ -79,27 +86,32 @@ p::before {
   margin-left: auto;
   margin-right: auto;
   border-radius: 30px;
+  animation-name: fadeInBoard;
+  animation-duration: 2s;
 }
 
 #info {
   font: 20px "Segoe UI Light";
   position: relative;
-  bottom: 338px;
+  bottom: 400px;
   left: calc(7 * var(--circleSize) + 7 * 2 * var(--circleMargin)  + 30px);
+  animation-name: fadeInInfo;
+  animation-duration: 2s;
 
 }
 
 #input-field{
+  position: relative;
   font: 20px "Segoe UI Light";
   text-align: center;
   margin-top : 20px;
+  animation-name: fadeInNickname;
+  animation-duration: 2s;
 }
 
 input{
   font: 20px "Segoe UI Light";
 }
-
-
 
 .background_image {
   position: absolute;
@@ -117,11 +129,46 @@ input{
   animation: blink 1s linear infinite;
 }
 
+#title{
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  border: 20px;
+  animation-name: fadeIn;
+  animation-duration: 2s;
+  z-index: 50;
+}
+
+h3, h5{
+  position: relative;
+  left: 480px;
+  bottom: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-shadow: 2px 2px BLACK;
+  animation-name: fadeInBoard;
+  animation-duration: 2s;
+}
+
 @keyframes blink {
   0% {opacity: 1}
   25% {opacity: 0.75}
   50% {opacity: 0.25}
   75% {opacity: 0.75}
   100% {opacity: 1}
-
 }
+
+@keyframes fadeInBoard {
+  0% {bottom: 75px; opacity: 0}
+  50% {bottom: 0px; opacity: 0.8}
+  100% {bottom: 0px; opacity: 1}
+}
+
+@keyframes fadeInNickname {
+  0% {top: 75px; opacity: 0}
+  50% {top: 0px; opacity: 0.8}
+  100% {top: 0px; opacity: 1}
+}
+
+
+
