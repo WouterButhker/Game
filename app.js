@@ -79,6 +79,7 @@ function Game() {
     };
 
     this.drop = function (player, column) {
+        if (!this.ongoing) return false;
         column = parseInt(column);
         for (let i = 0; i < 6; i++) {
             if (this.board[column][i] === undefined) {
@@ -146,37 +147,6 @@ function Game() {
         let win = horizontal > 3 || vertical > 3 || diagonalL > 3 || diagonalR > 3;
         return win;
 
-    };
-
-    this.checkFinished = function (horizontal) {
-        let c, d;
-        if (horizontal) {
-            c = 6;
-            d = 7;
-        } else {
-            c = 7;
-            d = 6;
-        }
-
-        for (let a = 0; a < c; a++) {
-            let lastColor = null;
-            let consecutive = 1;
-            for (let b = 0; b < d; b++) {
-                let currentColor;
-                if (horizontal) currentColor = this.board[a][b];
-                else currentColor = this.board[b][a];
-
-                if (currentColor === lastColor && currentColor != null)
-                    consecutive++;
-                else
-                    consecutive = 1;
-                lastColor = currentColor;
-                if (consecutive === 4) {
-                    return true;
-                }
-            }
-        }
-        return false;
     };
 
     this.finish = function () {
