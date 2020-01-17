@@ -28,6 +28,7 @@ socket.onmessage = function (event) {
         clearInterval(timerID);
         document.getElementById("finished").innerHTML = "yes";
         document.getElementById("winner").innerHTML = "The winner is " + document.getElementById("turnID").innerHTML;
+        let black = document.createElement("winner-background");
     } else if (data === "nextTurn") {
         updateTurn();
     } else if (data.startsWith("opponent=")) {
