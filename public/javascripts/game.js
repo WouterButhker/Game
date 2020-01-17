@@ -16,7 +16,7 @@ socket.onmessage = function (event) {
 
     if (data === "red" || data === "yellow") {
         document.getElementById("color").innerHTML = data;
-        return;
+
     } else if (data === "terminated") {
         clearInterval(timerID);
         document.getElementById("finished").innerHTML = "yes";
@@ -24,6 +24,7 @@ socket.onmessage = function (event) {
     } else if (data === "startGame") {
         timer();
         timerID = setInterval(timer, 1000);
+        document.getElementById("waiting").hidden = true;
     } else if (data === "finished") {
         clearInterval(timerID);
         document.getElementById("finished").innerHTML = "yes";

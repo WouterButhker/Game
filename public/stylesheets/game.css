@@ -11,11 +11,10 @@ body {
   padding: 50px;
   font: 40px "Segoe UI Semibold";
   color: white;
+  overflow: hidden;
 }
 
-b {
-  color: RED;
-}
+
 
 .circle {
   width: var(--circleSize);
@@ -62,6 +61,7 @@ b {
   position: relative;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 30px;
 }
 
 #info {
@@ -81,15 +81,6 @@ input{
 }
 
 
-#win-background {
-  width: calc(7 * var(--circleSize) + 7 * 2 * var(--circleMargin));
-  height: calc(3 * var(--circleSize) + 6 * 2 * var(--circleMargin));
-  background-color: transparent;
-  padding: 0px;
-  position: relative;
-  bottom: 260px;
-  left: 10px;
-}
 
 .background_image {
   position: absolute;
@@ -101,4 +92,17 @@ input{
   background-color: #89D2DC;
   background-image: url("background.jpg");
   transform: scale(1.2);
+}
+
+#waiting {
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  0% {opacity: 1}
+  25% {opacity: 0.75}
+  50% {opacity: 0.25}
+  75% {opacity: 0.75}
+  100% {opacity: 1}
+
 }
