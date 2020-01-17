@@ -64,3 +64,13 @@ b {
   left: 400px;
   bottom: 338px;
 }
+
+#win-background {
+  width: calc(7 * var(--boardsize) + 7 * 2 * var(--margin));
+  height: calc(3 * var(--boardsize) + 6 * 2 * var(--margin));
+  background-color: transparent;
+  padding: 0px;
+  position: relative;
+  bottom: 260px;
+  left: 10px;
+}

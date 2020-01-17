@@ -1,15 +1,28 @@
 body{
-    background-color: #89D2DC;
-}
+    overflow: hidden;
+    }
 
 div {
     font: 25px "Arial Nova Light";
     text-align: center;
+    color: WHITE;
+}
+
+.background_image {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    z-index: -100;
+    -webkit-filter: blur(1px);
+    filter: blur(1px);
+    background-color: #89D2DC;
+    background-image: url("background2.jpg");
 }
 
 #statistics{
     text-align: left;
     font: 15px "Trebuchet MS";
+
 }
 #title{
     position: relative;
@@ -17,8 +30,9 @@ div {
 }
 
 h1, h4{
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    border: 20px;
 }
 
 h1{

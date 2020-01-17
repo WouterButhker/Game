@@ -14,6 +14,7 @@ app.use(express.static(__dirname + "/public"));
 let currentGames = [];
 currentGames[0] = new Game();
 let gameCounter = 1;
+
 setInterval(clock, 1000);
 
 function Game() {
@@ -82,6 +83,8 @@ function Game() {
         for (let i = 0; i < 6; i++) {
             if (this.board[column][i] === undefined) {
                 this.board[column][i] = player.color;
+                this.lastX = column;
+                this.lastY = i;
                 this.nextTurn();
                 return true;
             }
@@ -91,8 +94,8 @@ function Game() {
 
     this.nextTurn = function () {
         let finished = this.checkFinished(true) || this.checkFinished(false);
-        this.player1.send("opponent="+this.player2.name);
-        this.player2.send("opponent="+this.player1.name);
+        this.player1.send("opponent=" + this.player2.name);
+        this.player2.send("opponent=" + this.player1.name);
         this.sendToPlayers(JSON.stringify(this.board));
         if (finished) {
             this.finish();
@@ -104,14 +107,15 @@ function Game() {
         this.sendToPlayers("nextTurn");
     };
 
+
     this.checkFinished = function (horizontal) {
         let c, d;
         if (horizontal) {
-            c = 6;
-            d = 7;
-        } else {
             c = 7;
             d = 6;
+        } else {
+            c = 6;
+            d = 7;
         }
 
         for (let a = 0; a < c; a++) {
@@ -164,15 +168,13 @@ socket.on("connection", function (ws) {
         let color = isPlayer1 ? game.player1.color : game.player2.color;
         let player = isPlayer1 ? game.player1 : game.player2;
 
-        if (message.startsWith("name="))
-        {
+        if (message.startsWith("name=")) {
             player.name = message.split("=")[1];
-            console.log(player.name + " ontvangen");
             return;
         }
 
         let success = false;
-        if (game.turn === color) {
+        if (game.turn === color && game.ongoing) {
             success = game.drop(player, message);
         }
 
