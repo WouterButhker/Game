@@ -112,10 +112,7 @@ function Game() {
             return false;
         let this2 = this;
 
-        // console.table(this.board);
-
         function recursiveWinCheck(x, y, direction) {
-            console.log("Checking " + x + ", " + y);
             let outOfBounds = x < 0 || x > 6 || y < 0 || y > 5;
             if (outOfBounds || this2.board[x][y] !== colorToCheck) {
                 return 0;
