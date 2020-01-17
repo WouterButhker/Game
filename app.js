@@ -79,11 +79,11 @@ function Game() {
     };
 
     this.drop = function (player, column) {
+        column = parseInt(column);
         for (let i = 0; i < 6; i++) {
             if (this.board[column][i] === undefined) {
                 this.board[column][i] = player.color;
                 this.nextTurn(column, i);
-                this.betterCheck(column, i);
                 return true;
             }
         }
@@ -108,10 +108,14 @@ function Game() {
 
     this.betterCheck = function (x, y) {
         let colorToCheck = this.board[x][y];
-        this2 = this;
-        console.table(this.board);
+        if (colorToCheck !== "red" && colorToCheck !== "yellow")
+            return false;
+        let this2 = this;
+
+        // console.table(this.board);
 
         function recursiveWinCheck(x, y, direction) {
+            console.log("Checking " + x + ", " + y);
             let outOfBounds = x < 0 || x > 6 || y < 0 || y > 5;
             if (outOfBounds || this2.board[x][y] !== colorToCheck) {
                 return 0;
@@ -119,28 +123,28 @@ function Game() {
 
             switch (direction) {
                 case "left" :
-                    return 1 + recursiveWinCheck(x-1, y, "left");
+                    return 1 + recursiveWinCheck(x - 1, y, "left");
                 case "right" :
-                    return 1 + recursiveWinCheck(x+1, y, "right");
+                    return 1 + recursiveWinCheck(x + 1, y, "right");
                 case "up" :
-                    return 1 + recursiveWinCheck(x, y+1, "up");
+                    return 1 + recursiveWinCheck(x, y + 1, "up");
                 case "down" :
-                    return 1 + recursiveWinCheck(x, y-1, "down");
+                    return 1 + recursiveWinCheck(x, y - 1, "down");
                 case "up right" :
-                    return 1 + recursiveWinCheck(x+1, y+1, "up right");
+                    return 1 + recursiveWinCheck(x + 1, y + 1, "up right");
                 case "down left" :
-                    return 1 + recursiveWinCheck(x-1, y-1, "down left");
+                    return 1 + recursiveWinCheck(x - 1, y - 1, "down left");
                 case "down right" :
-                    return 1 + recursiveWinCheck(x+1, y-1, "down right");
+                    return 1 + recursiveWinCheck(x + 1, y - 1, "down right");
                 case "up left" :
-                    return 1 + recursiveWinCheck(x-1, y+1, "up left");
+                    return 1 + recursiveWinCheck(x - 1, y + 1, "up left");
             }
         }
 
-        let horizontal = 1 + recursiveWinCheck(x -1 , y, "left") + recursiveWinCheck(x + 1, y, "right");
-        let vertical = recursiveWinCheck(x, y + 1, "up") + recursiveWinCheck(x, y - 1, "down");
-        let diagonalR = 1 + recursiveWinCheck(x + 1, y + 1, "up right") + recursiveWinCheck(x -1, y - 1, "down left");
-         let diagonalL = 1 + recursiveWinCheck(x + 1, y - 1, "down right") + recursiveWinCheck(x -1, y + 1, "up left");
+        let horizontal = 1 + recursiveWinCheck(x - 1, y, "left") + recursiveWinCheck(x + 1, y, "right");
+        let vertical = 1 + recursiveWinCheck(x, y + 1, "up") + recursiveWinCheck(x, y - 1, "down");
+        let diagonalR = 1 + recursiveWinCheck(x + 1, y + 1, "up right") + recursiveWinCheck(x - 1, y - 1, "down left");
+        let diagonalL = 1 + recursiveWinCheck(x + 1, y - 1, "down right") + recursiveWinCheck(x - 1, y + 1, "up left");
 
         let win = horizontal > 3 || vertical > 3 || diagonalL > 3 || diagonalR > 3;
         return win;
@@ -242,7 +246,7 @@ function clock() {
         if (game.ongoing) {
             if (game.secondsLeft === 0) {
                 game.secondsLeft = 30;
-                game.nextTurn();
+                game.nextTurn(0, 0);
             } else {
                 game.secondsLeft--;
             }
