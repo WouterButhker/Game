@@ -1,9 +1,10 @@
 
 :root {
-  --circleSize: 50px;
-  --circleMargin: 2px;
+  --circleSize: 60px;
+  --circleMargin: 3px;
   --boardHeight: calc(6 * var(--circleSize));
   --boardWidth: calc(7 * var(--circleSize));
+  --margin: calc(2 * 7 * var(--circleMargin))
 }
 
 body {
@@ -22,7 +23,7 @@ b {
   border-radius: 50%;
   background-color: WHITE;
   float: right;
-  margin: 2px;
+  margin: var(--circleMargin);
 }
 
 .red {
@@ -34,17 +35,17 @@ b {
 }
 
 .column {
-  height: var(--boardHeight);
+  height: calc(var(--boardHeight) + var(--margin));
   width: var(--circleSize);
   opacity: 50%;
   float: left;
-  padding: 2px;
+  padding: var(--circleMargin);
 }
 
 #columns {
   position: absolute;
-  width: calc(7 * var(--circleSize));
-  height: calc(6 * var(--circleSize));
+  width: calc(var(--boardWidth) + var(--margin));
+  height: calc(var(--boardHeight) + var(--margin));
 
   top: 0;
 }
@@ -54,8 +55,8 @@ b {
 }
 
 #board {
-  width: calc(7 * var(--circleSize) + 40px);
-  height: calc(6 * var(--circleSize) + 40px);
+  width: calc(7 * var(--circleSize) + var(--margin));
+  height: calc(6 * var(--circleSize) + var(--margin));
   background-color: #011627;
   padding: 10px;
   position: relative;
