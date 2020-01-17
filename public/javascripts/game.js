@@ -33,7 +33,7 @@ socket.onmessage = function (event) {
     } else if (data.startsWith("opponent=")) {
         opponentName = data.split("=")[1];
     } else {
-        let board = JSON.parse(data)
+        let board = JSON.parse(data);
         //console.table(board);
 
         for (let y = 0; y < 6; y++) {
