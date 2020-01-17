@@ -1,7 +1,10 @@
 
 :root {
-  --boardsize: 50px;
-  --margin: 2px;
+  --circleSize: 60px;
+  --circleMargin: 3px;
+  --boardHeight: calc(6 * var(--circleSize));
+  --boardWidth: calc(7 * var(--circleSize));
+  --margin: calc(2 * 7 * var(--circleMargin))
 }
 
 body {
@@ -15,12 +18,12 @@ b {
 }
 
 .circle {
-  width: var(--boardsize);
-  height: var(--boardsize);
+  width: var(--circleSize);
+  height: var(--circleSize);
   border-radius: 50%;
   background-color: WHITE;
   float: right;
-  margin: 2px;
+  margin: var(--circleMargin);
 }
 
 .red {
@@ -32,17 +35,17 @@ b {
 }
 
 .column {
-  height: calc(6 * var(--boardsize) + 7 * 2 * var(--margin));
-  width: var(--boardsize);
+  height: calc(var(--boardHeight) + var(--margin));
+  width: var(--circleSize);
   opacity: 50%;
   float: left;
-  padding: 2px;
+  padding: var(--circleMargin);
 }
 
 #columns {
   position: absolute;
-  width: calc(7 * var(--boardsize) + 7 * 2 * var(--margin));
-  height: calc(6 * var(--boardsize) + 6 * 2 * var(--margin));
+  width: calc(var(--boardWidth) + var(--margin));
+  height: calc(var(--boardHeight) + var(--margin));
 
   top: 0;
 }
@@ -52,8 +55,8 @@ b {
 }
 
 #board {
-  width: calc(7 * var(--boardsize) + 7 * 2 * var(--margin));
-  height: calc(6 * var(--boardsize) + 6 * 2 * var(--margin));
+  width: calc(7 * var(--circleSize) + var(--margin));
+  height: calc(6 * var(--circleSize) + var(--margin));
   background-color: #011627;
   padding: 10px;
   position: relative;
@@ -65,7 +68,7 @@ b {
   font: 20px "Segoe UI Light";
   position: relative;
   bottom: 338px;
-  left: calc(7 * var(--boardsize) + 7 * 2 * var(--margin) );
+  left: calc(7 * var(--circleSize) + 7 * 2 * var(--circleMargin)  + 30px);
 
 }
 
@@ -79,8 +82,8 @@ input{
 
 
 #win-background {
-  width: calc(7 * var(--boardsize) + 7 * 2 * var(--margin));
-  height: calc(3 * var(--boardsize) + 6 * 2 * var(--margin));
+  width: calc(7 * var(--circleSize) + 7 * 2 * var(--circleMargin));
+  height: calc(3 * var(--circleSize) + 6 * 2 * var(--circleMargin));
   background-color: transparent;
   padding: 0px;
   position: relative;
