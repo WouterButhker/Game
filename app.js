@@ -6,10 +6,13 @@
 let express = require("express");
 let http = require("http");
 let websocket = require("ws");
+
 let port = process.argv[2];
 let app = express();
 require("./routes/index")(app);
+let stats = require("./public/stats.js");
 app.use(express.static(__dirname + "/public"));
+
 
 let currentGames = [];
 currentGames[0] = new Game();
@@ -196,6 +199,7 @@ socket.on("connection", function (ws) {
     if (game.bothPlayersPresent()) {
         currentGames[gameCounter] = new Game();
         gameCounter++;
+        stats.currentGames = gameCounter;
         game.player1.color = "red";
         game.player2.color = "yellow";
         game.sendIdentities();

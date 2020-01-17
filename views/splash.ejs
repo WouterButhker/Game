@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="stylesheets\splash.css">
+    <meta charset="UTF-8">
+    <title>Connect 4!</title>
+</head>
+<body>
+<div>
+    <div class="background_image"></div>
+    <div id="statistics">
+        <span>Number of current players: <%= currentGames %><br/></span>
+        <span>Total number of games played: <%= gamesPlayed %><br/></span>
+        <span>Fastest game played: <%= fastestTime %><br/></span>
+        <span><b>WEBSITE STATS</b><br/></span>
+    </div>
+    <div id="title">
+        <h1>CONNECT 4</h1>
+        <h4>A CSE1500 game by Wouter Büthker en Daniël de Weerd</h4>
+        <form action="/play" method="get">
+            <button class="button">PLAY</button>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-let socket = new WebSocket("ws://localhost:3000");
+let socket = new WebSocket("ws:localhost:3000");
 let elapsedTime = 0;
 let secondsLeft = 30;
 let timerID;

@@ -1,13 +1,14 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
+let stats  = require('../public/stats.js');
 
 
 module.exports = function(app) {
 
 
   app.get('/', function (req, res, next) {
-    //res.render('index', { title: 'Express' });
-    res.sendFile("splash.html", {root: "./public"})
+    res.render('splash.ejs', {currentGames:stats.currentGames, gamesPlayed:stats.gamesPlayed, fastestTime:stats.fastestGame});
+    // res.sendFile("splash.html", {root: "./public"})
   });
 
   app.get('/play', function (req, res) {
