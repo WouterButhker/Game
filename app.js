@@ -14,7 +14,6 @@ app.use(express.static(__dirname + "/public"));
 let currentGames = [];
 currentGames[0] = new Game();
 let gameCounter = 1;
-
 setInterval(clock, 1000);
 
 function Game() {
@@ -37,7 +36,7 @@ function Game() {
             return true;
         } else if (this.player2 == null) {
             this.player2 = ws;
-            this.player2.name = "Anonymous Owl";
+            this.player2.name = "Anonymous Pinguin";
             return true
         } else {
             return false;
@@ -48,7 +47,7 @@ function Game() {
             this.player1 = null;
         else if (this.player2 === ws)
             this.player2 = null;
-    }
+    };
 
     this.bothPlayersPresent = function () {
         return this.player1 != null && this.player2 != null;
@@ -83,17 +82,17 @@ function Game() {
         for (let i = 0; i < 6; i++) {
             if (this.board[column][i] === undefined) {
                 this.board[column][i] = player.color;
-                this.lastX = column;
-                this.lastY = i;
-                this.nextTurn();
+                this.nextTurn(column, i);
+                this.betterCheck(column, i);
                 return true;
             }
         }
         return false;
     };
 
-    this.nextTurn = function () {
-        let finished = this.checkFinished(true) || this.checkFinished(false);
+    this.nextTurn = function (x, y) {
+        //let finished = this.checkFinished(true) || this.checkFinished(false);
+        let finished = this.betterCheck(x, y);
         this.player1.send("opponent=" + this.player2.name);
         this.player2.send("opponent=" + this.player1.name);
         this.sendToPlayers(JSON.stringify(this.board));
@@ -107,15 +106,55 @@ function Game() {
         this.sendToPlayers("nextTurn");
     };
 
+    this.betterCheck = function (x, y) {
+        let colorToCheck = this.board[x][y];
+        this2 = this;
+        console.table(this.board);
+
+        function recursiveWinCheck(x, y, direction) {
+            let outOfBounds = x < 0 || x > 6 || y < 0 || y > 5;
+            if (outOfBounds || this2.board[x][y] !== colorToCheck) {
+                return 0;
+            }
+
+            switch (direction) {
+                case "left" :
+                    return 1 + recursiveWinCheck(x-1, y, "left");
+                case "right" :
+                    return 1 + recursiveWinCheck(x+1, y, "right");
+                case "up" :
+                    return 1 + recursiveWinCheck(x, y+1, "up");
+                case "down" :
+                    return 1 + recursiveWinCheck(x, y-1, "down");
+                case "up right" :
+                    return 1 + recursiveWinCheck(x+1, y+1, "up right");
+                case "down left" :
+                    return 1 + recursiveWinCheck(x-1, y-1, "down left");
+                case "down right" :
+                    return 1 + recursiveWinCheck(x+1, y-1, "down right");
+                case "up left" :
+                    return 1 + recursiveWinCheck(x-1, y+1, "up left");
+            }
+        }
+
+        let horizontal = 1 + recursiveWinCheck(x -1 , y, "left") + recursiveWinCheck(x + 1, y, "right");
+        let vertical = recursiveWinCheck(x, y + 1, "up") + recursiveWinCheck(x, y - 1, "down");
+        let diagonalR = 1 + recursiveWinCheck(x + 1, y + 1, "up right") + recursiveWinCheck(x -1, y - 1, "down left");
+         let diagonalL = 1 + recursiveWinCheck(x + 1, y - 1, "down right") + recursiveWinCheck(x -1, y + 1, "up left");
+
+        let win = horizontal > 3 || vertical > 3 || diagonalL > 3 || diagonalR > 3;
+        return win;
+
+    };
 
     this.checkFinished = function (horizontal) {
         let c, d;
         if (horizontal) {
-            c = 7;
-            d = 6;
-        } else {
             c = 6;
             d = 7;
+        } else {
+            c = 7;
+            d = 6;
         }
 
         for (let a = 0; a < c; a++) {
@@ -170,11 +209,12 @@ socket.on("connection", function (ws) {
 
         if (message.startsWith("name=")) {
             player.name = message.split("=")[1];
+            console.log(player.name + " ontvangen");
             return;
         }
 
         let success = false;
-        if (game.turn === color && game.ongoing) {
+        if (game.turn === color) {
             success = game.drop(player, message);
         }
 
