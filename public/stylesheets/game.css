@@ -23,8 +23,6 @@ p::before {
   content: '• ';
 }
 
-
-
 .circle {
   width: var(--circleSize);
   height: var(--circleSize);
