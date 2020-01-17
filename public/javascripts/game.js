@@ -15,8 +15,13 @@ socket.onmessage = function (event) {
     let data = event.data;
 
     if (data === "red" || data === "yellow") {
-        document.getElementById("color").innerHTML = data;
-
+        if (data === "red") {
+            document.getElementById("color").innerHTML = "Red";
+            document.getElementById("color").className = "redText";
+        } else {
+            document.getElementById("color").innerHTML = "Yellow";
+            document.getElementById("color").className = "yellowText";
+        }
     } else if (data === "terminated") {
         clearInterval(timerID);
         document.getElementById("finished").innerHTML = "yes";
@@ -80,10 +85,14 @@ function timer() {
 //
 function updateTurn() {
     let turnID = document.getElementById("turnID").innerHTML;
-    if (turnID === "RED")
+    if (turnID === "RED") {
         document.getElementById("turnID").innerHTML = "YELLOW";
-    if (turnID === "YELLOW")
+        document.getElementById("turnID").className = "yellowText";
+    }
+    if (turnID === "YELLOW") {
         document.getElementById("turnID").innerHTML = "RED";
+        document.getElementById("turnID").className = "redText";
+    }
 
     secondsLeft = 30;
     refreshPage();

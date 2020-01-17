@@ -14,6 +14,14 @@ body {
   overflow: hidden;
 }
 
+p {
+  margin: 0;
+}
+
+p::before {
+  content: '• ';
+}
+
 
 
 .circle {
@@ -33,12 +41,21 @@ body {
   background-color: yellow;
 }
 
+.redText {
+  color: red;
+}
+
+.yellowText {
+  color: yellow;
+}
+
 .column {
   height: calc(var(--boardHeight) + var(--margin));
   width: var(--circleSize);
   opacity: 50%;
   float: left;
   padding: var(--circleMargin);
+  border-radius: 10px;
 }
 
 #columns {
@@ -56,7 +73,7 @@ body {
 #board {
   width: calc(7 * var(--circleSize) + var(--margin));
   height: calc(6 * var(--circleSize) + var(--margin));
-  background-color: #011627;
+  background-color: darkblue;
   padding: 10px;
   position: relative;
   margin-left: auto;
@@ -74,6 +91,8 @@ body {
 
 #input-field{
   font: 20px "Segoe UI Light";
+  text-align: center;
+  margin-top : 20px;
 }
 
 input{
