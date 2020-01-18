@@ -134,7 +134,7 @@ input{
   margin-top: 5px;
   margin-bottom: 0px;
   border: 20px;
-  animation-name: fadeIn;
+  animation-name: fadeInBoard;
   animation-duration: 2s;
   z-index: 50;
 }
@@ -146,8 +146,6 @@ h3, h5{
   margin-top: 0;
   margin-bottom: 0;
   text-shadow: 2px 2px BLACK;
-  animation-name: fadeInBoard;
-  animation-duration: 2s;
 }
 
 @keyframes blink {
