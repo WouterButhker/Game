@@ -87,6 +87,7 @@ function Game() {
         for (let i = 0; i < 6; i++) {
             if (this.board[column][i] === undefined) {
                 this.board[column][i] = player.color;
+                this.fichesPlayed++;
                 this.nextTurn(column, i);
                 return true;
             }
@@ -96,12 +97,16 @@ function Game() {
 
     this.nextTurn = function (x, y) {
         //let finished = this.checkFinished(true) || this.checkFinished(false);
-        let finished = this.betterCheck(x, y);
+        let playerWins = this.betterCheck(x, y);
+        let nobodyWins = !playerWins && this.fichesPlayed > 41;
         this.player1.send("opponent=" + this.player2.name);
         this.player2.send("opponent=" + this.player1.name);
         this.sendToPlayers(JSON.stringify(this.board));
-        if (finished) {
-            this.finish();
+        if (playerWins) {
+            this.finish(this.board[x][y]);
+            return;
+        } else if (nobodyWins) {
+            this.finish("no winner");
             return;
         }
         if (this.turn === "red") this.turn = "yellow";
@@ -152,8 +157,8 @@ function Game() {
 
     };
 
-    this.finish = function () {
-        this.sendToPlayers("finished");
+    this.finish = function (winner) {
+        this.sendToPlayers("finished=" + winner);
         this.ongoing = false;
     }
 
