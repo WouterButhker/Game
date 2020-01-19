@@ -10,5 +10,5 @@ for (let i = 0; i < cookieList.length; i++) {
     }
 }
 numberOfTimesAccessedByThisClient++;
-document.cookie = "numberOfTimesAccessed=" + numberOfTimesAccessedByThisClient;
+document.cookie = "numberOfTimesAccessed=" + numberOfTimesAccessedByThisClient + "; expires=Mon, 20-Jul-2020 06:45:00 GMT";
 document.getElementById("gamesPlayedByPlayer").innerHTML = numberOfTimesAccessedByThisClient;
