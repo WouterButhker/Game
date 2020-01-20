@@ -1,6 +1,6 @@
 @media (min-width: 1280px) AND (min-height: 720px) {
 
-    body{
+    body {
         overflow: hidden;
     }
 
@@ -9,6 +9,7 @@
         text-align: center;
         color: WHITE;
     }
+
     .button {
         background-color: #C64C38;
         border: none;
@@ -19,7 +20,7 @@
         margin-top: 10px;
     }
 
-    .button:HOVER{
+    .button:HOVER {
         background-color: #c9978f;
     }
 
@@ -35,7 +36,7 @@
         transform: scale(1.2);
     }
 
-    #statistics{
+    #statistics {
         position: relative;
         text-align: center;
         font: 25px "Segoe UI Light";
@@ -44,22 +45,23 @@
         animation-name: fadeInIII;
         animation-duration: 2s;
     }
-    #statistics:hover{
-        top: 0px;
+
+    #statistics:hover {
+        top: 0;
     }
-    #title{
+
+    #title {
         position: relative;
         margin-top: 5px;
         margin-bottom: 0px;
         border: 20px;
         animation-name: fadeIn;
         animation-duration: 2s;
-        /*font-size: 25px;*/
         top: 75px;
         z-index: 50;
     }
 
-    #info{
+    #info {
         position: relative;
         text-align: center;
         font: 15px "Segoe UI";
@@ -70,31 +72,65 @@
         z-index: -10;
     }
 
-    #rules::after{
+    #rules::before {
+        content: "C";
+    }
+
+    #rules::after {
         content: "!";
     }
 
-    h1, h4{
+    #rules:active {
+        color: RED;
+    }
+
+    #fullscreenMessage {
+        opacity: 0;
+    }
+
+    h1, h4 {
         margin-top: 0;
         margin-bottom: 0;
         text-shadow: 2px 2px BLACK;
     }
 
     @keyframes fadeIn {
-        0% {top: 0px; opacity: 0}
-        50% {top: 75px; opacity: 0.8}
-        100% {top: 75px; opacity: 1}
+        0% {
+            top: 0px;
+            opacity: 0
+        }
+        50% {
+            top: 75px;
+            opacity: 0.8
+        }
+        100% {
+            top: 75px;
+            opacity: 1
+        }
     }
 
     @keyframes fadeInII {
-        0% {top: -100px; opacity: 0}
-        50% {top: 85px; opacity: 0.8}
-        100% {top: 85px; opacity: 1}
+        0% {
+            top: -100px;
+            opacity: 0
+        }
+        50% {
+            top: 85px;
+            opacity: 0.8
+        }
+        100% {
+            top: 85px;
+            opacity: 1
+        }
     }
 
     @keyframes fadeInIII {
-        0% {opacity: 0}
-        100% {opacity: 1}
+        0% {
+            opacity: 0
+        }
+        100% {
+            opacity: 1
+        }
     }
 }
 
@@ -102,7 +138,8 @@
     #statistics {
         display: none;
     }
-    #info{
+
+    #info {
         display: none;
     }
 
