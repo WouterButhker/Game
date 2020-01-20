@@ -26,6 +26,7 @@ function Game() {
     this.board = [];
     this.secondsLeft = 30;
     this.ongoing = false;
+    this.elapsedTime = 0;
     for (let i = 0; i < 7; i++) {
         this.board[i] = [];
     }
@@ -158,10 +159,14 @@ function Game() {
     };
 
     this.finish = function (winner) {
+        let this3 = this;
         this.sendToPlayers("finished=" + winner);
         this.ongoing = false;
+        let fastest = stats.fastestGame;
+        if (this3.elapsedTime < fastest) {
+            stats.fastestGame = this3.elapsedTime;
+        }
     }
-
 }
 
 let server = http.createServer(app);
@@ -174,7 +179,8 @@ socket.on("connection", function (ws) {
     if (game.bothPlayersPresent()) {
         currentGames[gameCounter] = new Game();
         gameCounter++;
-        stats.currentGames = gameCounter;
+        stats.gamesPlayed = gameCounter;
+        console.log(stats.gamesPlayed);
         game.player1.color = "red";
         game.player2.color = "yellow";
         game.sendIdentities();
@@ -218,9 +224,12 @@ socket.on("connection", function (ws) {
 
 
 function clock() {
+    let numberOfCurrentGames = 0;
     for (let i = 0; i < currentGames.length; i++) {
         let game = currentGames[i];
         if (game.ongoing) {
+            numberOfCurrentGames++;
+            game.elapsedTime++;
             if (game.secondsLeft === 0) {
                 game.secondsLeft = 30;
                 game.nextTurn(0, 0);
@@ -229,6 +238,9 @@ function clock() {
             }
         }
     }
+    stats.currentGames = numberOfCurrentGames;
+
+
 }
 
 server.listen(port);
