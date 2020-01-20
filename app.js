@@ -1,11 +1,27 @@
 let express = require("express");
 let http = require("http");
+let https = require('https');
 let websocket = require("ws");
+let fs = require("fs");
 
-let port = process.argv[2];
+let privateKey = fs.readFileSync('ssl-cert/privkey.pem', 'utf8');
+let certificate = fs.readFileSync('ssl-cert/fullchain.pem', 'utf8');
+
+let credentials = { key: privateKey, cert: certificate };
+
+
+//let port = process.argv[2];
+let port = 3000;
 let app = express();
 require("./routes/index")(app);
 app.use(express.static(__dirname + "/public"));
+
+//let server = http.createServer(app);
+let server = https.createServer(credentials, app);
+
+const socket = new websocket.Server({server});
+
+
 
 
 let currentGames = [];
@@ -160,8 +176,8 @@ function Game() {
 
 }
 
-let server = http.createServer(app);
-const socket = new websocket.Server({server});
+
+
 
 socket.on("connection", function (ws) {
 
@@ -224,6 +240,7 @@ function clock() {
     }
 }
 
+//server.listen(port);
 server.listen(port);
 
 
