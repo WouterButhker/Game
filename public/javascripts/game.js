@@ -30,11 +30,19 @@ socket.onmessage = function (event) {
         timer();
         timerID = setInterval(timer, 1000);
         document.getElementById("waiting").hidden = true;
-    } else if (data === "finished") {
+    } else if (data.startsWith("finished")) {
         clearInterval(timerID);
         document.getElementById("finished").innerHTML = "yes";
-        document.getElementById("winner").innerHTML = "The winner is " + document.getElementById("turnID").innerHTML;
-        let black = document.createElement("winner-background");
+        let winner = data.split("=")[1];
+        if (winner === "red") {
+            document.getElementById("winner").innerHTML = "The winner is RED";
+        } else if (winner === "yellow")  {
+            document.getElementById("winner").innerHTML = "The winner is YELLOW";
+        } else {
+            document.getElementById("winner").innerHTML = "Nobody wins!"
+        }
+
+
     } else if (data === "nextTurn") {
         updateTurn();
     } else if (data.startsWith("opponent=")) {
