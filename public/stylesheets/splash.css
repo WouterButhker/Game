@@ -31,7 +31,7 @@
         -webkit-filter: blur(5px);
         filter: blur(5px);
         background-color: #89D2DC;
-        background-image: url("background.jpg");
+        background-image: url("../images/background.jpg");
         transform: scale(1.2);
     }
 
