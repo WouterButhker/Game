@@ -56,7 +56,7 @@ p::before {
   opacity: 50%;
   float: left;
   padding: var(--circleMargin);
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 .square{

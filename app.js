@@ -1,8 +1,3 @@
-/**
- * Set up basic web stuff
- * @type {createApplication}
- */
-
 let express = require("express");
 let http = require("http");
 let websocket = require("ws");
@@ -10,7 +5,6 @@ let websocket = require("ws");
 let port = process.argv[2];
 let app = express();
 require("./routes/index")(app);
-let stats = require("./public/stats.js");
 app.use(express.static(__dirname + "/public"));
 
 
@@ -24,13 +18,13 @@ function Game() {
     this.player2 = null;
     this.turn = "red";
     this.board = [];
-    this.secondsLeft = 30;
+    this.fichesPlayed = 0;
     this.ongoing = false;
     for (let i = 0; i < 7; i++) {
         this.board[i] = [];
     }
 
-    this.fichesPlayed = 0;
+
 
     this.addPlayer = function (ws) {
         if (this.player1 == null) {
@@ -84,6 +78,7 @@ function Game() {
     this.drop = function (player, column) {
         if (!this.ongoing) return false;
         column = parseInt(column);
+
         for (let i = 0; i < 6; i++) {
             if (this.board[column][i] === undefined) {
                 this.board[column][i] = player.color;
@@ -96,12 +91,13 @@ function Game() {
     };
 
     this.nextTurn = function (x, y) {
-        //let finished = this.checkFinished(true) || this.checkFinished(false);
         let playerWins = this.betterCheck(x, y);
         let nobodyWins = !playerWins && this.fichesPlayed > 41;
+
         this.player1.send("opponent=" + this.player2.name);
         this.player2.send("opponent=" + this.player1.name);
         this.sendToPlayers(JSON.stringify(this.board));
+
         if (playerWins) {
             this.finish(this.board[x][y]);
             return;
@@ -109,9 +105,10 @@ function Game() {
             this.finish("no winner");
             return;
         }
+
         if (this.turn === "red") this.turn = "yellow";
         else this.turn = "red";
-        this.secondsLeft = 30;
+
         this.sendToPlayers("nextTurn");
     };
 
@@ -152,8 +149,7 @@ function Game() {
         let diagonalR = 1 + recursiveWinCheck(x + 1, y + 1, "up right") + recursiveWinCheck(x - 1, y - 1, "down left");
         let diagonalL = 1 + recursiveWinCheck(x + 1, y - 1, "down right") + recursiveWinCheck(x - 1, y + 1, "up left");
 
-        let win = horizontal > 3 || vertical > 3 || diagonalL > 3 || diagonalR > 3;
-        return win;
+        return horizontal > 3 || vertical > 3 || diagonalL > 3 || diagonalR > 3;
 
     };
 
@@ -194,14 +190,11 @@ socket.on("connection", function (ws) {
             return;
         }
 
-        let success = false;
         if (game.turn === color) {
-            success = game.drop(player, message);
+            game.drop(player, message);
         }
 
-        if (success) {
 
-        }
     });
 
     ws.on("close", function closing(x, y) {

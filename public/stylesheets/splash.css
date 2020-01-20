@@ -100,7 +100,7 @@
 
 }
 
-@media (max-height: 720px) OR (max-width: 1280px) {
+@media (max-height: 719px) OR (max-width: 1279px) {
     #statistics {
         display: none;
     }
