@@ -88,6 +88,7 @@ p::before {
   animation-duration: 2s;
 }
 
+
 #info {
   font: 20px "Segoe UI Light";
   position: relative;
@@ -103,8 +104,13 @@ p::before {
   font: 20px "Segoe UI Light";
   text-align: center;
   margin-top : 20px;
+  top: 120px;
+  transition: top 30s;
   animation-name: fadeInNickname;
   animation-duration: 2s;
+}
+#input-field:hover{
+  top: 80px;
 }
 
 input{
@@ -162,8 +168,8 @@ h3, h5{
 
 @keyframes fadeInNickname {
   0% {top: 75px; opacity: 0}
-  50% {top: 0px; opacity: 0.8}
-  100% {top: 0px; opacity: 1}
+  50% {top: 120px; opacity: 0.8}
+  100% {top: 120px; opacity: 1}
 }
 
 

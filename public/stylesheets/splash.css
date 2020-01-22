@@ -44,10 +44,6 @@
         animation-name: fadeInIII;
         animation-duration: 2s;
     }
-
-    #title:fullscreen {
-        color: green;
-    }
     #statistics:hover{
         top: 0px;
     }
@@ -74,11 +70,23 @@
         z-index: -10;
     }
 
-    #rules::after{
+    #rules::before {
+        content: "C";
+    }
+
+    #rules::after {
         content: "!";
     }
 
-    h1, h4{
+    #rules:active {
+        color: RED;
+    }
+
+    #fullscreenMessage {
+        opacity: 0;
+    }
+
+    h1, h4 {
         margin-top: 0;
         margin-bottom: 0;
         text-shadow: 2px 2px BLACK;
