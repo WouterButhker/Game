@@ -1,13 +1,13 @@
 let express = require("express");
 let http = require("http");
-let https = require('https');
+//let https = require('https');
 let websocket = require("ws");
 let fs = require("fs");
 
-let privateKey = fs.readFileSync('ssl-cert/privkey.pem', 'utf8');
-let certificate = fs.readFileSync('ssl-cert/fullchain.pem', 'utf8');
+// let privateKey = fs.readFileSync('ssl-cert/privkey.pem', 'utf8');
+// let certificate = fs.readFileSync('ssl-cert/fullchain.pem', 'utf8');
 
-let credentials = { key: privateKey, cert: certificate };
+//let credentials = { key: privateKey, cert: certificate };
 
 
 //let port = process.argv[2];
@@ -16,8 +16,8 @@ let app = express();
 require("./routes/index")(app);
 app.use(express.static(__dirname + "/public"));
 
-//let server = http.createServer(app);
-let server = https.createServer(credentials, app);
+let server = http.createServer(app);
+//let server = https.createServer(credentials, app);
 
 const socket = new websocket.Server({server});
 
