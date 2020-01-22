@@ -1,5 +1,5 @@
 //const https = require("https");
-let socket = new WebSocket("ws://connectfour.tech:80");
+let socket = new WebSocket("ws://connectfour.tech:3000");
 let elapsedTime = 0;
 let secondsLeft = 30;
 let timerID;
