@@ -105,7 +105,7 @@ p::before {
   text-align: center;
   margin-top : 20px;
   top: 120px;
-  transition: top 30s;
+  transition: top 2s;
   animation-name: fadeInNickname;
   animation-duration: 2s;
 }
