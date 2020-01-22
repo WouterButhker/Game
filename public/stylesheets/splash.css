@@ -1,4 +1,4 @@
-@media (min-width: 1280px) AND (min-height: 720px) {
+/*@media (min-width: 1280px) AND (min-height: 720px) {*/
 
     body{
         overflow: hidden;
@@ -31,7 +31,7 @@
         -webkit-filter: blur(5px);
         filter: blur(5px);
         background-color: #89D2DC;
-        background-image: url("background.jpg");
+        background-image: url("../images/background.jpg");
         transform: scale(1.2);
     }
 
@@ -70,11 +70,23 @@
         z-index: -10;
     }
 
-    #rules::after{
+    #rules::before {
+        content: "C";
+    }
+
+    #rules::after {
         content: "!";
     }
 
-    h1, h4{
+    #rules:active {
+        color: RED;
+    }
+
+    #fullscreenMessage {
+        opacity: 0;
+    }
+
+    h1, h4 {
         margin-top: 0;
         margin-bottom: 0;
         text-shadow: 2px 2px BLACK;
@@ -98,7 +110,7 @@
     }
 
 
-}
+/*}*/
 
 @media (max-height: 719px) OR (max-width: 1279px) {
     #statistics {

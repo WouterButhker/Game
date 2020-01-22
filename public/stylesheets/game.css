@@ -23,8 +23,6 @@ p::before {
   content: '• ';
 }
 
-
-
 .circle {
   width: var(--circleSize);
   height: var(--circleSize);
@@ -90,6 +88,7 @@ p::before {
   animation-duration: 2s;
 }
 
+
 #info {
   font: 20px "Segoe UI Light";
   position: relative;
@@ -105,8 +104,13 @@ p::before {
   font: 20px "Segoe UI Light";
   text-align: center;
   margin-top : 20px;
+  top: 120px;
+  transition: top 2s;
   animation-name: fadeInNickname;
   animation-duration: 2s;
+}
+#input-field:hover{
+  top: 80px;
 }
 
 input{
@@ -121,7 +125,7 @@ input{
   -webkit-filter: blur(5px);
   filter: blur(5px);
   background-color: #89D2DC;
-  background-image: url("background.jpg");
+  background-image: url("../images/background.jpg");
   transform: scale(1.2);
 }
 
@@ -164,8 +168,8 @@ h3, h5{
 
 @keyframes fadeInNickname {
   0% {top: 75px; opacity: 0}
-  50% {top: 0px; opacity: 0.8}
-  100% {top: 0px; opacity: 1}
+  50% {top: 120px; opacity: 0.8}
+  100% {top: 120px; opacity: 1}
 }
 
 

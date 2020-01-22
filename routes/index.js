@@ -23,8 +23,8 @@ module.exports = function(app) {
     // res.sendFile("splash.html", {root: "./public"})
   });
 
-  app.get('/play', function (req, res) {
-    res.sendFile("game.html", {root: "./public"})
-  });
+    app.get('/play', function (req, res) {
+        res.sendFile("game.html", {root: "./public"})
+    });
 
 };
