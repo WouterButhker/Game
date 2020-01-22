@@ -15,7 +15,25 @@
         \item String entered in input field with id='input-field': send string to server on turn end.
     \end{itemize}
     \section{Question 2.2}\label{sec:question-2.2}
-    We have chosen to implement an Game object in Javascript using a basic constructor design pattern.
-    \section{Question 3.3}\label{sec:question-3.3}
+    The game makes use of a Game object to represent the game state.
+    This object is implemented using a simple object constructor.
 
+
+    \section{Question 3.3}\label{sec:question-3.3}
+    \subsection{Client-to-server messages}
+    \begin{itemize}
+        \item "name=*": Client sends the nickname specified by the user to the server
+        \item "[number from 0 to 6]": Client sends the column the player wants to drop fiche in to the server
+    \end{itemize}
+    \subsection{Server-to-client messages}
+    \begin{itemize}
+        \item "red": Server tells client that it has been assigned the color red
+        \item "yellow": Server tells client that it has been assigned the color yellow
+        \item "terminated": Server tells client that the other player has disconnected
+        \item "startGame": Server tells client that the game has begon
+        \item "finished": Server tells client that the game has ended according to the rules
+        \item "winner=[color]": Server tells client which player has won
+        \item "nextTurn": Sever tells client that the current turn has ended
+        \item "opponent=[nickname]": Server tells client the nickname that was transmitted by the opposing client
+    \end{itemize}
 \end{document}

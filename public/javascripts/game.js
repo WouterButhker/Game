@@ -49,8 +49,6 @@ socket.onmessage = function (event) {
         opponentName = data.split("=")[1];
     } else {
         let board = JSON.parse(data);
-        //console.table(board);
-
         for (let y = 0; y < 6; y++) {
             for (let x = 0; x < 7; x++) {
                 if (board[x][y] !== undefined) {
